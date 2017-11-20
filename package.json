@@ -2,8 +2,18 @@
   "main": "node_modules/expo/AppEntry.js",
   "private": true,
   "dependencies": {
+    "date-fns": "^1.29.0",
     "expo": "^23.0.0",
+    "firebase": "^4.6.2",
+    "lodash": "^4.17.4",
     "react": "16.0.0",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-23.0.0.tar.gz"
+    "react-native": "https://github.com/expo/react-native/archive/sdk-23.0.0.tar.gz",
+    "react-navigation": "^1.0.0-beta.19",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2",
+    "redux-actions": "^2.2.1",
+    "redux-persist": "^5.4.0",
+    "redux-saga": "^0.16.0",
+    "reselect": "^3.0.1"
   }
 }
