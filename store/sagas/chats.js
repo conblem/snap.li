@@ -1,8 +1,8 @@
 import { eventChannel, END } from "redux-saga";
-import { takeLatest, call, put, all, take } from "redux-saga/effects";
+import { takeLatest, call, put, take } from "redux-saga/effects";
 import firebase from "firebase";
 
-import { requestChats, receiveChats, errorChats } from "./actions";
+import { requestChats, receiveChats, errorChats } from "../actions";
 
 const chatsChannel = () =>
   eventChannel(emit => {
@@ -43,10 +43,6 @@ function* fetchChats() {
   }
 }
 
-function* watchRequestChat() {
+export function* watchRequestChat() {
   yield takeLatest("REQUEST_CHATS", fetchChats);
-}
-
-export default function* rootSaga() {
-  yield all([watchRequestChat()]);
 }

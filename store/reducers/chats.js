@@ -16,7 +16,7 @@ export default handleActions(
     [errorChats]: (state, { payload }) => ({
       ...state,
       isFetching: false,
-      error: payload
+      error: payload.messsage
     })
   },
   {
