@@ -1,4 +1,5 @@
 import React from 'react'
+import { View } from 'react-native'
 import { TabNavigator, StackNavigator } from 'react-navigation'
 
 import Chats from './Chats'
@@ -6,12 +7,18 @@ import Camera from './Camera'
 
 const Tabs = TabNavigator({
     Chats: {
-        screen: Chats
+        screen: Chats,
+        navigationOptions: {
+            tabBarVisible: false,
+        }
     },
     Camera: {
-        screen: Camera
+        screen: Camera,
+        navigationOptions: {
+            tabBarVisible: false,
+        }
     }
-}, { tabBarOptions: { style: { height: 0 } } })
+})
 
 export default StackNavigator({
     Tabs: {

@@ -1,4 +1,5 @@
 import { createAction } from "redux-actions";
+import { NavigationActions } from 'react-navigation';
 
 export const requestChats = createAction("REQUEST_CHATS");
 export const receiveChats = createAction("RECEIVE_CHATS");

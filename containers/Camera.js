@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
-import { MaterialIcons } from '@expo/vector-icons';
+import { View, Text, StyleSheet, Image } from 'react-native'
+import { connect } from 'react-redux'
 import { Camera, Permissions } from 'expo';
+
+import CameraMenu from '../components/CameraMenu'
 
 const styles = StyleSheet.create({
     camera: {
@@ -12,62 +14,47 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'flex-end'
     },
-    menu: {
-        height: 100,
-        backgroundColor: 'black',
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        alignItems: 'center'
-    },
-    circle: {
-        height: 80,
-        width: 80,
-        borderRadius: 80 / 2,
-        backgroundColor: 'white'
+    photo: {
+        flex: 1
     }
 })
 
-export default class extends Component {
+export default class CameraContainer extends Component {
     state = {
         hasCameraPermission: null,
         position: Camera.Constants.Type.front,
-        camera: null
+        camera: null,
+        photo: null
     }
     async componentWillMount() {
         const { status } = await Permissions.askAsync(Permissions.CAMERA);
         this.setState({ hasCameraPermission: status === 'granted' });
     }
     switchCamera = () => {
-        console.log('hoi')
         this.setState({
-            type: this.state.type === Camera.Constants.Type.back
+            position: this.state.position === Camera.Constants.Type.back
                 ? Camera.Constants.Type.front
                 : Camera.Constants.Type.back,
         });
     }
     snap = async () => {
-        const { camera } = this.state
-        if (!camera) return
-        const { base64 } = await camera.takePictureAsync();
-        const photo = 'data:image/jpg;base64,' + base64
-        console.log(photo)
+        if (!this.camera) return
+        const { base64 } = await this.camera.takePictureAsync({ base64: true })
+        const photo = "data:image/jpg;base64," + base64
+        this.setState({ photo })
+    }
+    send = () => {
+        const { navigation } = this.props
+        const { photo } = this.state
+        navigation.navigate('Send', { photo })
     }
     render() {
-        const { hasCameraPermission, position } = this.state
+        const { hasCameraPermission, position, photo } = this.state
         if (hasCameraPermission != true) return <Text>Permission</Text>
-        return <Camera ref={camera => this.setState({ camera })} style={styles.camera} type={position}>
+        return <Camera ref={ref => this.camera = ref} style={styles.camera} type={position}>
             <View style={styles.container}>
-                <View style={styles.menu}>
-                    <TouchableOpacity onPress={this.switchCamera} >
-                        <MaterialIcons name="switch-camera" size={30} color="white" />
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={this.snap}>
-                        <View style={styles.circle} />
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <MaterialIcons name="close" size={30} color="white" />
-                    </TouchableOpacity>
-                </View>
+                {photo ? <Image source={{ uri: photo }} style={styles.photo} /> : <View />}
+                <CameraMenu snap={photo ? this.send : this.snap} close={() => this.setState({ photo: null })} switchCamera={this.switchCamera} />
             </View>
         </Camera>
     }
