@@ -12,7 +12,7 @@ const authChannel = () =>
       user => {
         if (user === null) return;
         emit(receiveUser(user));
-        sagaMiddleware.run(chats);
+        sagaMiddleware.run(chats, user.uid);
       },
       error => emit(errorUser(error))
     )

@@ -6,6 +6,7 @@ export default handleActions(
   {
     [receiveUser]: (state, { payload }) => ({
       email: payload.email,
+      uid: payload.uid,
       error: ""
     }),
     [errorUser]: (state, { payload }) => ({
@@ -15,6 +16,7 @@ export default handleActions(
   },
   {
     email: "",
+    uid: "",
     error: ""
   }
 );

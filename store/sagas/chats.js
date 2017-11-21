@@ -4,9 +4,9 @@ import firebase from "firebase";
 
 import { requestChats, receiveChats, errorChats } from "../actions";
 
-const chatsChannel = () =>
+const chatsChannel = uid =>
   eventChannel(emit => {
-    const ref = firebase.database().ref("chats");
+    const ref = firebase.database().ref(uid + "/chats");
     ref.on(
       "value",
       snapshot => {
@@ -21,8 +21,8 @@ const chatsChannel = () =>
     return () => ref.off("value");
   });
 
-export function* chats() {
-  const channel = yield call(chatsChannel);
+export function* chats(uid) {
+  const channel = yield call(chatsChannel, uid);
   try {
     while (true) {
       const action = yield take(channel);

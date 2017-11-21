@@ -3,7 +3,9 @@ import { View, StatusBar } from "react-native";
 import { Provider } from "react-redux";
 
 import { store } from "./store";
-import Main from "./containers/Main";
+import Entry from "./containers/Entry";
+
+console.ignoredYellowBox = ['Setting a timer'];
 
 export default () => (
   <Provider store={store}>
