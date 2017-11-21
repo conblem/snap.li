@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StatusBar } from "react-native";
+import { View, StatusBar, StyleSheet } from "react-native";
 import { Provider } from "react-redux";
 
 import { store } from "./store";
@@ -7,11 +7,17 @@ import Entry from "./containers/Entry";
 
 console.ignoredYellowBox = ['Setting a timer'];
 
+const styles = StyleSheet.create({
+  app: {
+    flex: 1
+  }
+})
+
 export default () => (
-  <Provider store={store}>
-    <View>
-      <StatusBar backgroundColor="#ffffff" barStyle="dark-content" />
-      <Main />
-    </View>
-  </Provider>
+  <View style={styles.app}>
+    <StatusBar backgroundColor="#ffffff" barStyle="dark-content" />
+    <Provider store={store}>
+      <Entry />
+    </Provider>
+  </View>
 );

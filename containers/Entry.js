@@ -3,10 +3,10 @@ import { Text } from "react-native";
 import { connect } from "react-redux";
 
 import Login from './Login'
-import Chats from './Chats'
+import Main from './Main'
 
 const Entry = ({ uid, chats }) =>
-  uid !== "" ? <Chats /> : <Login />;
+  uid !== "" ? <Main style={{ flex: 1 }} /> : <Login />;
 
 const mapStateToProps = state => ({
   uid: state.user.uid

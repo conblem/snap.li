@@ -14,8 +14,6 @@ const Chats = ({ chats }) => {
         subTitle: formatRelative(new Date(timestamp * 1000), new Date()),
         onPress: console.log
     }))
-
-    console.log(data)
     return (
         <Screen title="Snaps" subTitle="Keine neuen nachrichten">
             <FlatList data={data} renderItem={ListTile} />

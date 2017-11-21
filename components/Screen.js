@@ -1,10 +1,7 @@
 import React from 'react'
-import {View, Text, StyleSheet} from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create({
-    screen: {
-
-    },
     header: {
         paddingLeft: 16,
         paddingRight: 16,
@@ -26,8 +23,8 @@ const styles = StyleSheet.create({
     }
 })
 
-export default ({title, subTitle = "", HeaderComponent = View, children}) => (
-    <View style={styles.screen}>
+export default ({ title, subTitle = "", HeaderComponent = View, children }) => (
+    <View>
         <View style={styles.header}>
             <View style={styles.textArea}>
                 <Text>{subTitle}</Text>
