@@ -5,7 +5,7 @@ import { receiveUser, errorUser } from "../actions";
 export default handleActions(
   {
     [receiveUser]: (state, { payload }) => ({
-      email: user.email,
+      email: payload.email,
       error: ""
     }),
     [errorUser]: (state, { payload }) => ({

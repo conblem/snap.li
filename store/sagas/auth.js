@@ -10,7 +10,7 @@ const authChannel = () =>
   eventChannel(emit =>
     firebase.auth().onAuthStateChanged(
       user => {
-        if (!user) return;
+        if (user === null) return;
         emit(receiveUser(user));
         sagaMiddleware.run(chats);
       },
@@ -26,6 +26,7 @@ export function* auth() {
       yield put(action);
     }
   } finally {
+    console.log('chat close')
     channel.close();
   }
 }
