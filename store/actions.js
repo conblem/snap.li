@@ -7,3 +7,6 @@ export const errorChats = createAction("ERROR_CHATS");
 
 export const receiveUser = createAction("RECEIVE_USER");
 export const errorUser = createAction("ERROR_USER");
+
+export const navigateTabs = () => NavigationActions.navigate({ routeName: 'Tabs' })
+export const navigateSend = photo => NavigationActions.navigate({ routeName: 'Send', params: { photo } })

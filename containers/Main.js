@@ -1,6 +1,7 @@
 import React from 'react'
 import { View } from 'react-native'
-import { TabNavigator, StackNavigator } from 'react-navigation'
+import { connect } from 'react-redux'
+import { addNavigationHelpers, TabNavigator, StackNavigator } from 'react-navigation'
 
 import Chats from './Chats'
 import Camera from './Camera'
@@ -20,8 +21,20 @@ const Tabs = TabNavigator({
     }
 })
 
-export default StackNavigator({
+export const Stack = StackNavigator({
     Tabs: {
         screen: Tabs
     }
 }, { headerMode: 'none' })
+
+
+const Main = ({ navigation, dispatch }) => <Stack navigation={addNavigationHelpers({
+    dispatch,
+    state: navigation
+})} />
+
+const mapStateToProps = ({ navigation }) => ({
+    navigation
+})
+
+export default connect(mapStateToProps)(Main)
