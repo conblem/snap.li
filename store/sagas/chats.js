@@ -29,7 +29,7 @@ export function* chats(uid) {
       yield put(action);
     }
   } finally {
-    console.log('chats closed')
+    console.log("chats closed");
     channel.close();
   }
 }

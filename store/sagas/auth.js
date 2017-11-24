@@ -26,7 +26,7 @@ export function* auth() {
       yield put(action);
     }
   } finally {
-    console.log('chat close')
+    console.log("chat close");
     channel.close();
   }
 }
