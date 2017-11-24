@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { Camera, Permissions } from "expo";
 
 import CameraMenu from "../components/CameraMenu";
+import { navigateSend } from "../store/actions";
 
 const styles = StyleSheet.create({
   camera: {
@@ -33,9 +34,9 @@ class CameraContainer extends Component {
   switchCamera = () => {
     this.setState({
       position:
-        this.state.position === Camera.Constants.Type.back
-          ? Camera.Constants.Type.front
-          : Camera.Constants.Type.back
+      this.state.position === Camera.Constants.Type.back
+        ? Camera.Constants.Type.front
+        : Camera.Constants.Type.back
     });
   };
   snap = async () => {
@@ -44,12 +45,7 @@ class CameraContainer extends Component {
     const photo = "data:image/jpg;base64," + base64;
     this.setState({ photo });
   };
-  send = () => {
-    const { navigation } = this.props;
-    const { photo } = this.state;
-    console.log(navigation);
-    navigation.navigate("Send", { photo });
-  };
+  send = () => this.props.send(null);
   render() {
     const { hasCameraPermission, position, photo } = this.state;
     if (hasCameraPermission != true) return <Text>Permission</Text>;
@@ -62,8 +58,8 @@ class CameraContainer extends Component {
             type={position}
           />
         ) : (
-          <Image source={{ uri: photo }} style={styles.photo} />
-        )}
+            <Image source={{ uri: photo }} style={styles.photo} />
+          )}
         <CameraMenu
           snap={photo === null ? this.snap : this.send}
           close={() => this.setState({ photo: null })}
@@ -75,5 +71,8 @@ class CameraContainer extends Component {
 }
 
 const mapStateToProps = ({ navigation }) => ({ navigation });
+const mapDispatchToProps = dispatch => ({
+  send: photo => dispatch(navigateSend(photo))
+});
 
-export default connect(mapStateToProps)(CameraContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(CameraContainer);

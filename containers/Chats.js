@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, FlatList } from "react-native";
+import { StyleSheet, FlatList } from "react-native";
 import { connect } from "react-redux";
 import { formatRelative } from "date-fns";
 import _ from "lodash";
