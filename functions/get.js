@@ -2,10 +2,10 @@ const admin = require("firebase-admin");
 
 const pipe = (src, dest) =>
   new Promise((resolve, reject) => {
-    src.pipe(dest);
     dest.on("finish", resolve);
     dest.on("error", reject);
     src.on("error", reject);
+    src.pipe(dest);
   });
 
 module.exports = (req, res) => {
@@ -13,21 +13,26 @@ module.exports = (req, res) => {
   const to = req.get("to");
   const snap = req.get("snap");
 
-  let path;
+  let user;
+  let file;
 
   admin
     .auth()
-    .verifyIdToken(from)
-    .catch(res.status(401).end)
+    .verifyIdToken(to)
+    .catch(({ message }) =>
+      res
+        .status(401)
+        .send(message)
+        .end()
+    )
     .then(({ uid }) => {
-      path = `${uid}/${from}/${snap}`;
-      const src = admin
+      user = uid;
+      file = admin
         .storage()
         .bucket()
-        .file(`${path}.jpg`)
-        .createReadStream();
+        .file(`${user}/${from}/${snap}.jpg`);
 
-      return pipe(src, res);
+      return pipe(file.createReadStream(), res);
     })
     .catch(({ message }) =>
       res
@@ -37,6 +42,10 @@ module.exports = (req, res) => {
     )
     .then(() => {
       res.status(200).end();
-      return admin.database().ref(path).remove;
-    });
+      return admin
+        .database()
+        .ref(`${user}/chats/${from}/${snap}`)
+        .remove();
+    })
+    .then(() => file.delete());
 };

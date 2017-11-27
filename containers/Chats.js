@@ -8,14 +8,17 @@ import firebase from "firebase";
 import Screen from "../components/Screen";
 import ListTile from "../components/ListTile";
 
-import { requestLogout } from "../store/actions";
+import { requestLogout, requestGetSnap } from "../store/actions";
+import getChats from "../store/selectors/getChats";
 
-const Chats = ({ chats, logout }) => {
-  const data = _.map(chats, ({ user, timestamp }, key) => ({
-    title: user,
-    key,
-    subTitle: formatRelative(new Date(timestamp * 1000), new Date()),
-    onPress: console.log
+const Chats = ({ chats, logout, getSnap }) => {
+  const data = chats.map(chat => ({
+    ...chat,
+    onPress: ({ key, snaps }) => {
+      console.log(key);
+      console.log(snaps);
+      getSnap(key, snaps[0]);
+    }
   }));
   return (
     <Screen title="Snaps" subTitle="Keine neuen nachrichten">
@@ -26,11 +29,12 @@ const Chats = ({ chats, logout }) => {
 };
 
 const mapStateToProps = state => ({
-  chats: state.chats.items
+  chats: getChats(state)
 });
 
 const mapDispatchToProps = dispatch => ({
-  logout: () => dispatch(requestLogout())
+  logout: () => dispatch(requestLogout()),
+  getSnap: (from, snap) => dispatch(requestGetSnap({ from, snap }))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Chats);

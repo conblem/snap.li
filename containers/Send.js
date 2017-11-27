@@ -12,7 +12,7 @@ const Send = ({ send, navigation }) => (
     <Button
       onPress={() => {
         console.log(navigation);
-        send(12342, navigation.state.params.photo);
+        send("NKQgmUHb73To7ww4ZmmGXYkP3Gt2", navigation.state.params.photo);
       }}
       title="Send"
     />

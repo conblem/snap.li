@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
 
 export default ({ item }) => {
   const { title, subTitle, active, onPress } = item;
+  console.log(item);
   return (
     <TouchableOpacity onPress={() => onPress(item)} style={styles.listTile}>
       <Text style={styles.title}>{title}</Text>

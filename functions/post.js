@@ -19,7 +19,7 @@ const upload = (path, busboy) =>
     });
   });
 
-module.exports = functions.https.onRequest((req, res) => {
+module.exports = (req, res) => {
   const busboy = new Busboy({ headers: req.headers });
   const from = req.get("from");
   const to = req.get("to");
@@ -32,7 +32,7 @@ module.exports = functions.https.onRequest((req, res) => {
     .then(({ uid }) => {
       snap = admin
         .database()
-        .ref(to + "/" + uid)
+        .ref(`${to}/chats/${uid}`)
         .push();
       const file = upload(`${to}/${uid}/${snap.key}.jpg`, busboy);
       busboy.end(req.rawBody);
@@ -46,10 +46,7 @@ module.exports = functions.https.onRequest((req, res) => {
     )
     .then(() =>
       // prettier-ignore
-      snap.set({
-                timestamp: admin.database.ServerValue.TIMESTAMP,
-                path: `${to}/${snap.parent.key}/${snap.key}.jpg`
-            })
+      snap.set(admin.database.ServerValue.TIMESTAMP)
     )
     .catch(({ message }) =>
       res
@@ -58,4 +55,4 @@ module.exports = functions.https.onRequest((req, res) => {
         .end()
     )
     .then(() => res.status(200).end());
-});
+};

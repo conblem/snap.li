@@ -14,6 +14,8 @@ export const errorLogout = createAction("ERROR_LOGOUT");
 
 export const requestPostSnap = createAction("REQUEST_POST_SNAP");
 
+export const requestGetSnap = createAction("REQUEST_GET_SNAP");
+
 export const navigateTabs = () =>
   NavigationActions.navigate({ routeName: "Tabs" });
 export const navigateSend = photo =>
