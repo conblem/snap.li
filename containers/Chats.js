@@ -1,13 +1,16 @@
 import React from "react";
-import { StyleSheet, FlatList } from "react-native";
+import { StyleSheet, FlatList, Button } from "react-native";
 import { connect } from "react-redux";
 import { formatRelative } from "date-fns";
 import _ from "lodash";
+import firebase from "firebase";
 
 import Screen from "../components/Screen";
 import ListTile from "../components/ListTile";
 
-const Chats = ({ chats }) => {
+import { requestLogout } from "../store/actions";
+
+const Chats = ({ chats, logout }) => {
   const data = _.map(chats, ({ user, timestamp }, key) => ({
     title: user,
     key,
@@ -16,6 +19,7 @@ const Chats = ({ chats }) => {
   }));
   return (
     <Screen title="Snaps" subTitle="Keine neuen nachrichten">
+      <Button title="Logout" onPress={logout} />
       <FlatList data={data} renderItem={ListTile} />
     </Screen>
   );
@@ -25,4 +29,8 @@ const mapStateToProps = state => ({
   chats: state.chats.items
 });
 
-export default connect(mapStateToProps)(Chats);
+const mapDispatchToProps = dispatch => ({
+  logout: () => dispatch(requestLogout())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Chats);

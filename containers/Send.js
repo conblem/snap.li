@@ -1,19 +1,28 @@
 import React from "react";
-import { StyleSheet, FlatList } from "react-native";
+import { StyleSheet, FlatList, Button } from "react-native";
 import { connect } from "react-redux";
 
 import Screen from "../components/Screen";
 import ListTile from "../components/ListTile";
 
-const Send = ({ navigation }) => {
-    return (
-        <Screen title="Send" subTitle="Choose a friend">
-            <FlatList data={[]} renderItem={ListTile} />
-        </Screen>
-    );
-};
+import { requestPostSnap } from "../store/actions";
 
-const mapStateToProps = state => ({
+const Send = ({ send, navigation }) => (
+  <Screen title="Send" subTitle="Choose a friend">
+    <Button
+      onPress={() => {
+        console.log(navigation);
+        send(12342, navigation.state.params.photo);
+      }}
+      title="Send"
+    />
+    <FlatList data={[]} renderItem={ListTile} />
+  </Screen>
+);
+
+const mapStateToProps = state => ({});
+const mapDispatchToProps = dispatch => ({
+  send: (to, photo) => dispatch(requestPostSnap({ to, photo }))
 });
 
-export default connect(mapStateToProps)(Send);
+export default connect(mapStateToProps, mapDispatchToProps)(Send);

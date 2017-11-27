@@ -6,6 +6,7 @@ import { store } from "./store";
 import Entry from "./containers/Entry";
 
 console.ignoredYellowBox = ["Setting a timer"];
+//GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
 
 const styles = StyleSheet.create({
   app: {

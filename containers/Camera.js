@@ -34,18 +34,19 @@ class CameraContainer extends Component {
   switchCamera = () => {
     this.setState({
       position:
-      this.state.position === Camera.Constants.Type.back
-        ? Camera.Constants.Type.front
-        : Camera.Constants.Type.back
+        this.state.position === Camera.Constants.Type.back
+          ? Camera.Constants.Type.front
+          : Camera.Constants.Type.back
     });
   };
   snap = async () => {
     if (!this.camera) return;
-    const { base64 } = await this.camera.takePictureAsync({ base64: true });
-    const photo = "data:image/jpg;base64," + base64;
-    this.setState({ photo });
+    const { uri } = await this.camera.takePictureAsync();
+    console.log(uri);
+    console.log("uri");
+    this.setState({ photo: uri });
   };
-  send = () => this.props.send(null);
+  send = () => this.props.send(this.state.photo);
   render() {
     const { hasCameraPermission, position, photo } = this.state;
     if (hasCameraPermission != true) return <Text>Permission</Text>;
@@ -58,8 +59,8 @@ class CameraContainer extends Component {
             type={position}
           />
         ) : (
-            <Image source={{ uri: photo }} style={styles.photo} />
-          )}
+          <Image source={{ uri: photo }} style={styles.photo} />
+        )}
         <CameraMenu
           snap={photo === null ? this.snap : this.send}
           close={() => this.setState({ photo: null })}

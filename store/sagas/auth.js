@@ -2,7 +2,7 @@ import { eventChannel, END } from "redux-saga";
 import { takeLatest, call, put, take } from "redux-saga/effects";
 import firebase from "firebase";
 
-import { errorUser, receiveUser } from "../actions";
+import { errorUser, receiveUser, successLogout, errorLogout } from "../actions";
 import { sagaMiddleware } from "../index";
 import { chats } from "./chats";
 
@@ -14,7 +14,9 @@ const authChannel = () =>
         emit(receiveUser(user));
         sagaMiddleware.run(chats, user.uid);
       },
-      error => emit(errorUser(error))
+      error => {
+        emit(errorUser(error));
+      }
     )
   );
 
@@ -29,4 +31,19 @@ export function* auth() {
     console.log("chat close");
     channel.close();
   }
+}
+
+const logoutPromise = async () => await firebase.auth().signOut();
+
+function* logout() {
+  try {
+    yield call(logoutPromise);
+    yield put(successLogout());
+  } catch (error) {
+    yield put(errorLogout(error));
+  }
+}
+
+export function* watchRequestLogout() {
+  yield takeLatest("REQUEST_LOGOUT", logout);
 }

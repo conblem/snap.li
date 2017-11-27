@@ -10,15 +10,21 @@ export default class Login extends Component {
     email: "",
     password: ""
   };
-  login = async () => {
+  login = () => {
+    console.log("login");
     const { email, password } = this.state;
     if (email === "" || password === "") return;
-    try {
-      await firebase.auth().signInWithEmailAndPassword(email, password);
-      this.setState({ error: "" });
-    } catch (error) {
-      this.setState({ error });
-    }
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(() => {
+        console.log("success");
+        this.setState({ error: "" });
+      })
+      .catch(error => {
+        console.log(error);
+        this.setState({ error });
+      });
   };
   render() {
     return (

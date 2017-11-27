@@ -1,6 +1,12 @@
 import { handleActions } from "redux-actions";
 
-import { receiveUser, errorUser } from "../actions";
+import { receiveUser, errorUser, successLogout, errorLogout } from "../actions";
+
+const initialState = {
+  email: "",
+  uid: "",
+  error: ""
+};
 
 export default handleActions(
   {
@@ -12,11 +18,12 @@ export default handleActions(
     [errorUser]: (state, { payload }) => ({
       ...state,
       error: payload.message
-    })
+    }),
+    [errorLogout]: (state, { payload }) => ({
+      ...state,
+      error: payload
+    }),
+    [successLogout]: () => initialState
   },
-  {
-    email: "",
-    uid: "",
-    error: ""
-  }
+  initialState
 );
