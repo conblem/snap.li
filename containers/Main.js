@@ -11,20 +11,26 @@ import Send from "./Send";
 import Chats from "./Chats";
 import Camera from "./Camera";
 
-const Tabs = TabNavigator({
-  Chats: {
-    screen: Chats,
-    navigationOptions: {
-      tabBarVisible: false
+const Tabs = TabNavigator(
+  {
+    Chats: {
+      screen: Chats,
+      navigationOptions: {
+        tabBarVisible: false
+      }
+    },
+    Camera: {
+      screen: Camera,
+      navigationOptions: {
+        tabBarVisible: false
+      }
     }
   },
-  Camera: {
-    screen: Camera,
-    navigationOptions: {
-      tabBarVisible: false
-    }
+  {
+    swipeEnabled: true,
+    animationEnabled: true
   }
-});
+);
 
 export const Stack = StackNavigator(
   {

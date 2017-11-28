@@ -1,6 +1,8 @@
 import { takeEvery, call, put } from "redux-saga/effects";
 import firebase from "firebase";
 
+import { navigateTabs } from "../actions";
+
 const getIdTokenPromise = async () =>
   await firebase.auth().currentUser.getIdToken();
 
@@ -25,6 +27,7 @@ function* postSnap({ payload: { to, photo } }) {
       body
     }
   );
+  yield put(navigateTabs());
 }
 
 export function* watchRequestPostSnap() {

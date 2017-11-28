@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { View, TextInput, Button, Text, StyleSheet } from "react-native";
+import { View, Button, Text, StyleSheet } from "react-native";
 import firebase from "firebase";
 
 import Screen from "../components/Screen";
+import TextInput from "../components/TextInput";
 
 export default class Login extends Component {
   state = {
@@ -28,13 +29,17 @@ export default class Login extends Component {
   };
   render() {
     return (
-      <Screen title="Settings">
+      <Screen title="Login">
         <View>
           <Text>{this.state.error}</Text>
-          <TextInput onChangeText={email => this.setState({ email })} />
+          <TextInput
+            onChangeText={email => this.setState({ email })}
+            placeholder="Mail"
+          />
           <TextInput
             onChangeText={password => this.setState({ password })}
             secureTextEntry={true}
+            placeholder="Password"
           />
           <Button onPress={this.login} title="Login" />
         </View>
