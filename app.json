@@ -1,11 +1,11 @@
 {
   "expo": {
     "name": "snap.li",
-    "description": "An empty new project",
-    "slug": "snap.li",
+    "description": "Super basic Snapchat clone",
+    "slug": "snapli",
     "privacy": "public",
     "sdkVersion": "23.0.0",
-    "version": "1.0.0",
+    "version": "0.1.0",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
     "icon": "./assets/icon.png",
@@ -13,6 +13,9 @@
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
+    },
+    "android": {
+      "package": "me.conblem.snapli"
     },
     "ios": {
       "supportsTablet": true
